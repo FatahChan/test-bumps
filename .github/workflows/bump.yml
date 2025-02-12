@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - "dev"
-
 jobs:
   bump-version:
+    name: "Bump Version on dev"
     runs-on: ubuntu-latest
 
     steps:
@@ -14,18 +14,11 @@ jobs:
         uses: "actions/checkout@v2"
         with:
           ref: ${{ github.ref }}
-      - name: "cat package.json"
-        run: cat ./package.json
       - name: "Automated Version Bump"
         id: version-bump
-        uses: "paramsinghvc/gh-action-bump-version@master"
-        with:
-          tag-prefix: "v"
+        uses: "phips28/gh-action-bump-version@master"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: "cat package.json"
-        run: cat ./package.json
-      - name: "Output Step"
-        env:
-          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
-        run: echo "new tag $NEW_TAG"
+        with:
+          skip-tag: "true"
+          commit-message: "chore: Bump to v{{version}}"
