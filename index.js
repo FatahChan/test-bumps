@@ -3,7 +3,6 @@ function main() {
   console.log("This is a Fix");
   console.log("This is a Fix 2");
   console.log("This is a Fix 3");
-  console.log("This is a Fix 4");
 }
 
 main();
