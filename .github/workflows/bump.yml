@@ -20,8 +20,6 @@ jobs:
           private_key: "${{ secrets.AUTOMATIC_BUMP_APP_PRIVATE_KEY }}"
       - name: "Checkout source code"
         uses: "actions/checkout@v4"
-        with:
-          ssh-key: ${{secrets.AUTOMATIC_BUMP}}
       - name: "Automated Version Bump"
         id: version-bump
         uses: "phips28/gh-action-bump-version@master"
@@ -29,4 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
         with:
           skip-tag: "true"
+          skip-push: "true"
           commit-message: "chore: Bump to v{{version}}"
+      - name: "Create Pull Request"
+        uses: peter-evans/create-pull-request@v3
