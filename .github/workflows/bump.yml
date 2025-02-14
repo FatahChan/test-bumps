@@ -8,6 +8,8 @@ jobs:
   bump-version:
     name: "Bump Version on dev"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: "Checkout source code"
@@ -18,7 +20,7 @@ jobs:
         id: version-bump
         uses: "phips28/gh-action-bump-version@master"
         env:
-          GITHUB_TOKEN: ${{ secrets.AUTO_BUMP_APP_SECRET }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           skip-tag: "true"
           commit-message: "chore: Bump to v{{version}}"
