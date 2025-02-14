@@ -39,6 +39,7 @@ jobs:
           title: "Bump version"
           body: "Automated version bump"
           labels: version-bump
+          delete-branch: "true"
       - name: "Enable Auto-merge"
         if: steps.create-pr.outputs.pull-request-number
         run: |
