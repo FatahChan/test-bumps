@@ -15,13 +15,12 @@ jobs:
       - name: "Checkout source code"
         uses: "actions/checkout@v4"
         with:
-          persist-credentials: false
-          ref: ${{ github.ref }}
+          ssh-key: ${{secrets.AUTOMATIC_BUMP}}
       - name: "Automated Version Bump"
         id: version-bump
         uses: "phips28/gh-action-bump-version@master"
         env:
-          GITHUB_TOKEN: ${{ secrets.AUTOMATIC_BUMP }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           skip-tag: "true"
           commit-message: "chore: Bump to v{{version}}"
