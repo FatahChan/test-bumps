@@ -21,7 +21,7 @@ jobs:
         id: version-bump
         uses: "phips28/gh-action-bump-version@master"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           skip-tag: "true"
           commit-message: "chore: Bump to v{{version}}"
