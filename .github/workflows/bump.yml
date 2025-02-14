@@ -20,10 +20,10 @@ jobs:
           app_id: "${{ secrets.AUTOMATIC_BUMP_APP_ID }}"
           private_key: "${{ secrets.AUTOMATIC_BUMP_APP_PRIVATE_KEY }}"
       - name: "Checkout source code"
-        uses: "actions/checkout@v4"
+        uses: actions/checkout@v4
       - name: "Automated Version Bump"
         id: version-bump
-        uses: "phips28/gh-action-bump-version@master"
+        uses: phips28/gh-action-bump-version@master
         env:
           GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
         with:
@@ -31,4 +31,17 @@ jobs:
           skip-push: "true"
           commit-message: "chore: Bump to v{{version}}"
       - name: "Create Pull Request"
+        id: create-pr
         uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ steps.create_token.outputs.token }}
+          branch: version-bump
+          title: "Bump version"
+          body: "Automated version bump"
+          labels: version-bump
+      - name: "Enable Auto-merge"
+        if: steps.create-pr.outputs.pull-request-number
+        run: |
+          gh pr merge --auto --merge "${{ steps.create-pr.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ steps.create_token.outputs.token }}
